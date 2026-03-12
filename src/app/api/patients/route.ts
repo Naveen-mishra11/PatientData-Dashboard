@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Patient, ApiResponse, ApiParams } from '@/lib/types';
+import { ApiResponse} from '@/lib/types';
 
 // Import the data from the JSON file
-import patientsData from '@/../../data.json';
+import patientsData from './../../../../MOCK_DATA.json';
 
 export async function GET(request: NextRequest) {
   try {
@@ -59,6 +59,10 @@ export async function GET(request: NextRequest) {
         case 'age':
           aValue = a.age;
           bValue = b.age;
+          break;
+        case 'patient_id':
+          aValue = a.patient_id;
+          bValue = b.patient_id;
           break;
         case 'medical_issue':
           aValue = a.medical_issue.toLowerCase();
