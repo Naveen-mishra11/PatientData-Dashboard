@@ -1,6 +1,7 @@
 import { Patient } from '@/lib/types';
 import Image from 'next/image';
 import { MapPin, Phone, Mail } from 'lucide-react';
+import { useState } from 'react';
 
 interface PatientCardProps {
   patient: Patient;
@@ -14,6 +15,7 @@ const getMedicalIssueClass = (issue: string) => {
 
 export function PatientCard({ patient }: PatientCardProps) {
   const contact = patient.contact[0];
+  const [imageError, setImageError] = useState(false);
 
   return (
     <div className="patient-card">
@@ -21,13 +23,14 @@ export function PatientCard({ patient }: PatientCardProps) {
       <div className="bg-[#CDDEF8] p-4 flex items-center justify-between">
         {/* Left Side - Avatar and Patient Info */}
         <div className="flex items-center space-x-3">
-          {patient.photo_url ? (
+          {patient.photo_url && !imageError ? (
             <Image
               src={patient.photo_url}
               alt={patient.patient_name}
               width={40}
               height={40}
               className="w-10 h-10 rounded-full object-cover border-2 border-gray-200"
+              onError={() => setImageError(true)}
             />
           ) : (
             <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">

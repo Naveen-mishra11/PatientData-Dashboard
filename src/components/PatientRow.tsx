@@ -1,5 +1,6 @@
 import { Patient } from '@/lib/types';
 import Image from 'next/image';
+import { useState } from 'react';
 
 interface PatientRowProps {
   patient: Patient;
@@ -13,19 +14,21 @@ const getMedicalIssueClass = (issue: string) => {
 
 export function PatientRow({ patient }: PatientRowProps) {
   const contact = patient.contact[0];
+  const [imageError, setImageError] = useState(false);
 
   return (
     <tr className="border-b border-gray-200 hover:bg-gray-50 transition-colors">
       <td className="px-3 py-4 whitespace-nowrap text-sm text-gray-900">ID-{String(patient.patient_id).padStart(4, '0')}</td>
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex items-center">
-          {patient.photo_url ? (
+          {patient.photo_url && !imageError ? (
             <Image
               src={patient.photo_url}
               alt={patient.patient_name}
               width={40}
               height={40}
               className="w-10 h-10 rounded-full object-cover border-2 border-gray-200"
+              onError={() => setImageError(true)}
             />
           ) : (
             <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
